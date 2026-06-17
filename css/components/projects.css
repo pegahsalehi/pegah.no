@@ -1,0 +1,185 @@
+/**
+ * Projects section
+ */
+
+.pg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.pc {
+  padding: 2.5rem;
+  background: rgba(19, 34, 56, 0.4);
+  border: 1px solid var(--bdr);
+  border-top: 2px solid var(--bdr4);
+  border-radius: var(--r2);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.pc::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--acc), var(--warm2), var(--warm));
+  opacity: 0.7;
+  transition: opacity 0.4s;
+}
+
+.pc::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--acc-d) 0%, var(--warm-d) 50%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.pc:hover {
+  border-color: var(--warm-bdr);
+  border-top-color: var(--warm2);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px var(--acc-d), 0 0 60px var(--warm-d);
+}
+
+.pc:hover::before {
+  opacity: 1;
+}
+
+.pc:hover::after {
+  opacity: 1;
+}
+
+.pc.f {
+  grid-column: 1 / -1;
+  background: linear-gradient(
+    135deg,
+    rgba(19, 34, 56, 0.6) 0%,
+    rgba(59, 130, 246, 0.04) 50%,
+    rgba(245, 158, 11, 0.04) 100%
+  );
+  border-top-color: var(--warm-bdr);
+}
+
+.pt {
+  font-family: var(--fm);
+  font-size: 0.62rem;
+  color: var(--warm2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.pc h3 {
+  font-family: var(--fd);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.pc p {
+  font-size: 0.88rem;
+  color: var(--dim);
+  line-height: 1.85;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+.tg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.t {
+  font-family: var(--fm);
+  font-size: 0.62rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(59, 130, 246, 0.06);
+  border: 1px solid var(--bdr4);
+  border-radius: 100px;
+  color: var(--dim);
+  transition: all 0.3s;
+}
+
+.t:hover {
+  border-color: var(--warm2);
+  color: var(--warm2);
+  background: var(--warm-d);
+  box-shadow: 0 0 12px var(--warm-d);
+}
+
+.vc {
+  margin-top: 2rem;
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 1px solid var(--bdr4);
+  transition: all 0.3s;
+}
+
+.vc:hover {
+  border-color: var(--warm-bdr);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 20px var(--warm-d);
+}
+
+.vc video {
+  width: 100%;
+  display: block;
+}
+
+.vg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.vgl {
+  font-family: var(--fm);
+  font-size: 0.68rem;
+  color: var(--warm2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.5rem;
+  margin-top: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vgl::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--warm-bdr), transparent);
+}
+
+.vl {
+  padding: 0.7rem 1.25rem;
+  background: rgba(6, 13, 24, 0.6);
+  font-family: var(--fm);
+  font-size: 0.68rem;
+  color: var(--dim);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-top: 1px solid var(--bdr4);
+}
+
+.vl .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--warm2);
+  box-shadow: 0 0 8px var(--warm2);
+  animation: pu 2s infinite;
+}

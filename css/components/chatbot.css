@@ -1,0 +1,524 @@
+/**
+ * Chatbot — embedded inside the HR Chatbot project card
+ * Warm/amber accent theme for attention and elegance
+ */
+
+/* ─── Warm color tokens ─── */
+
+.pc-chat {
+  --chat-warm: #f59e0b;
+  --chat-warm2: #fbbf24;
+  --chat-warm3: #fcd34d;
+  --chat-warm-d: rgba(245, 158, 11, 0.1);
+  --chat-warm-g: rgba(245, 158, 11, 0.2);
+  --chat-warm-bg: rgba(245, 158, 11, 0.04);
+  --chat-warm-bdr: rgba(245, 158, 11, 0.2);
+}
+
+/* ─── Card highlight ─── */
+
+.pc-chat {
+  border-color: var(--chat-warm-bdr);
+  background: linear-gradient(
+    135deg,
+    rgba(19, 34, 56, 0.5) 0%,
+    var(--chat-warm-bg) 100%
+  );
+  transition: all 0.4s;
+}
+
+.pc-chat::before {
+  background: linear-gradient(90deg, var(--chat-warm), var(--chat-warm2), var(--chat-warm3));
+  opacity: 1;
+}
+
+.pc-chat:hover {
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px var(--chat-warm-d);
+}
+
+.pc-chat .pt {
+  color: var(--chat-warm2);
+}
+
+/* ─── Demo note ─── */
+
+.chat-demo-note {
+  font-size: 0.75rem;
+  color: var(--dim2);
+  font-style: italic;
+  margin: -0.5rem 0 1rem 0;
+  line-height: 1.5;
+}
+
+.chat-demo-note::before {
+  content: '• ';
+  color: var(--chat-warm2);
+}
+
+/* ─── "Try Live Demo" button ─── */
+
+.chat-demo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 1.5rem;
+  padding: 10px 22px;
+  background: linear-gradient(135deg, var(--chat-warm), #d97706);
+  border: none;
+  border-radius: 100px;
+  color: #1a1a1a;
+  font-family: var(--fb);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  animation: demoPulse 2.5s ease-in-out 3;
+}
+
+.chat-demo-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.chat-demo-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(245, 158, 11, 0.4);
+}
+
+.chat-demo-btn.hidden {
+  display: none;
+}
+
+@keyframes demoPulse {
+  0%, 100% { box-shadow: 0 2px 12px rgba(245, 158, 11, 0.25); }
+  50% { box-shadow: 0 4px 28px rgba(245, 158, 11, 0.55); }
+}
+
+/* ─── Embedded chat panel ─── */
+
+.chat-embed {
+  display: none;
+  flex-direction: column;
+  margin-top: 1.5rem;
+  height: 420px;
+  border: 1px solid var(--chat-warm-bdr);
+  border-radius: var(--r);
+  overflow: hidden;
+  background: rgba(6, 13, 24, 0.7);
+  backdrop-filter: blur(12px);
+  animation: chatSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chat-embed.open {
+  display: flex;
+}
+
+@keyframes chatSlideIn {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Header ─── */
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(12, 24, 41, 0.9);
+  border-bottom: 1px solid var(--chat-warm-bdr);
+  flex-shrink: 0;
+}
+
+.chat-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--chat-warm), #d97706);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fd);
+  font-weight: 700;
+  font-size: 13px;
+  color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+.chat-name {
+  font-family: var(--fb);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.chat-status {
+  font-family: var(--fm);
+  font-size: 0.6rem;
+  color: var(--chat-warm2);
+  margin-top: 1px;
+}
+
+.chat-close {
+  background: none;
+  border: none;
+  color: var(--dim2);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.chat-close:hover {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--chat-warm2);
+}
+
+/* ─── Messages ─── */
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: var(--chat-warm-bdr);
+  border-radius: 2px;
+}
+
+/* ─── Message bubbles ─── */
+
+.chat-msg {
+  display: flex;
+  max-width: 88%;
+  animation: chatFadeIn 0.25s ease;
+}
+
+.chat-msg.user {
+  align-self: flex-end;
+}
+
+.chat-msg.assistant {
+  align-self: flex-start;
+}
+
+.chat-msg-bubble {
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  font-family: var(--fb);
+  font-weight: 400;
+  word-break: break-word;
+}
+
+.chat-msg.user .chat-msg-bubble {
+  background: linear-gradient(135deg, var(--chat-warm), #d97706);
+  color: #1a1a1a;
+  border-bottom-right-radius: 4px;
+  font-weight: 500;
+}
+
+.chat-msg.assistant .chat-msg-bubble {
+  background: rgba(19, 34, 56, 0.8);
+  color: var(--dim);
+  border: 1px solid rgba(245, 158, 11, 0.1);
+  border-bottom-left-radius: 4px;
+}
+
+/* ─── Suggestion chips ─── */
+
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 2px 0 4px;
+  animation: chatFadeIn 0.4s ease 0.2s both;
+}
+
+.chat-chip {
+  padding: 5px 11px;
+  border: 1px solid var(--chat-warm-bdr);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--chat-warm2);
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--fb);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.chat-chip:hover {
+  background: var(--chat-warm-d);
+  border-color: var(--chat-warm);
+  color: var(--chat-warm3);
+}
+
+/* ─── Typing indicator ─── */
+
+.chat-typing-dots {
+  display: flex;
+  gap: 5px;
+  padding: 10px 13px;
+  align-items: center;
+}
+
+.chat-typing-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--chat-warm2);
+  animation: chatBounce 1.4s ease-in-out infinite;
+}
+
+.chat-typing-dots span:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.chat-typing-dots span:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+/* ─── Input area ─── */
+
+.chat-input-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(12, 24, 41, 0.9);
+  border-top: 1px solid var(--chat-warm-bdr);
+  flex-shrink: 0;
+}
+
+.chat-input {
+  flex: 1;
+  background: rgba(19, 34, 56, 0.6);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: 10px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-family: var(--fb);
+  font-size: 0.8rem;
+  resize: none;
+  outline: none;
+  max-height: 80px;
+  line-height: 1.5;
+  transition: border-color 0.2s;
+}
+
+.chat-input:focus {
+  border-color: var(--chat-warm);
+}
+
+.chat-input::placeholder {
+  color: var(--dim2);
+}
+
+.chat-send {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--chat-warm), #d97706);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.chat-send:hover {
+  transform: scale(1.06);
+  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.4);
+}
+
+.chat-send:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.chat-send svg {
+  width: 14px;
+  height: 14px;
+  stroke: #1a1a1a;
+  fill: none;
+}
+
+/* ─── Animations ─── */
+
+@keyframes chatFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes chatBounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-5px);
+  }
+}
+
+/* ─── Floating chat toggle button ─── */
+
+.floating-chat-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--warm), #d97706);
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.5s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s, background 0.3s;
+}
+
+.floating-chat-btn.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.floating-chat-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke: #1a1a1a;
+  fill: none;
+  transition: stroke 0.3s;
+}
+
+.floating-chat-btn.visible:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 30px rgba(245, 158, 11, 0.5);
+}
+
+.floating-chat-btn.chat-open {
+  background: var(--bg3);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.floating-chat-btn.chat-open svg {
+  stroke: var(--warm2);
+}
+
+/* ─── Floating chat panel ─── */
+
+.floating-chat {
+  --chat-warm: #f59e0b;
+  --chat-warm2: #fbbf24;
+  --chat-warm3: #fcd34d;
+  --chat-warm-d: rgba(245, 158, 11, 0.1);
+  --chat-warm-g: rgba(245, 158, 11, 0.2);
+  --chat-warm-bg: rgba(245, 158, 11, 0.04);
+  --chat-warm-bdr: rgba(245, 158, 11, 0.2);
+
+  position: fixed;
+  bottom: 96px;
+  right: 28px;
+  width: 380px;
+  height: 520px;
+  z-index: 1001;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  background: rgba(6, 13, 24, 0.95);
+  backdrop-filter: blur(16px);
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(245, 158, 11, 0.08);
+}
+
+.floating-chat.open {
+  display: flex;
+  animation: floatingChatIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes floatingChatIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 600px) {
+  .chat-embed.open {
+    height: 380px;
+  }
+
+  .floating-chat.open {
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 80vh;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .floating-chat-btn {
+    bottom: 16px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .floating-chat-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+}
