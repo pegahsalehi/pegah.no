@@ -62,7 +62,7 @@ A modern, responsive portfolio website showcasing professional experience, proje
    npm run dev
    ```
 
-5. Open [http://localhost:5173](http://192.168.1.8:8080/) in your browser.
+5. Open [http://192.168.1.8:8080/](http://192.168.1.8:8080/) in your browser.
 
 ## 📁 Project Structure
 
