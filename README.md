@@ -44,12 +44,12 @@ A modern, responsive portfolio website showcasing professional experience, proje
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/kalpsenghani/portfolio.git
+   git clone https://github.com/pegahsalehi/pegah.no.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd portfolio
+   cd pegah.no
    ```
 
 3. Install dependencies:
@@ -62,7 +62,7 @@ A modern, responsive portfolio website showcasing professional experience, proje
    npm run dev
    ```
 
-5. Open [http://localhost:5173](http://localhost:5173) in your browser.
+5. Open [http://localhost:5173](http://192.168.1.8:8080/) in your browser.
 
 ## 📁 Project Structure
 
@@ -112,14 +112,8 @@ The project can be deployed to any static hosting service:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ## 📞 Contact
 
 For any inquiries or suggestions, please reach out through the contact form on the portfolio website.
-
----
-
-<div align="center">
-Made with ❤️ by Kalp Senghani
-</div>
