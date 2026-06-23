@@ -1,6 +1,8 @@
 import type { Handler, HandlerResponse } from '@netlify/functions';
+import { connectLambda, getStore } from '@netlify/blobs';
 import OpenAI from 'openai';
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
+import { createHash } from 'node:crypto';
 import { retrievePortfolioChunks } from './lib/retrieval.js';
 import type { PortfolioLanguage } from './data/portfolioKnowledge.js';
 
@@ -17,11 +19,19 @@ type PortfolioChatPayload = {
   language?: unknown;
 };
 
+type UsageRecord = {
+  count: number;
+  date: string;
+  updatedAt: string;
+};
+
 const DEFAULT_MODEL = 'gpt-4.1-mini';
 const MAX_MESSAGE_LENGTH = 1000;
 const MAX_HISTORY_MESSAGES = 6;
 const MAX_HISTORY_MESSAGE_LENGTH = 800;
 const MAX_CONTEXT_CHUNKS = 6;
+const DEFAULT_DAILY_LIMIT = 7;
+const USAGE_STORE_NAME = 'portfolio-chat-usage';
 const GREETING_MESSAGES = new Set([
   'hi',
   'hello',
@@ -52,6 +62,11 @@ const json = (statusCode: number, body: Record<string, unknown>, extraHeaders: R
   },
   body: JSON.stringify(body),
 });
+
+const resolveDailyLimit = () => {
+  const configuredLimit = Number.parseInt(process.env.CHAT_DAILY_LIMIT ?? '', 10);
+  return Number.isFinite(configuredLimit) && configuredLimit > 0 ? configuredLimit : DEFAULT_DAILY_LIMIT;
+};
 
 const parseJsonBody = (body: string | null, isBase64Encoded: boolean): PortfolioChatPayload | null => {
   if (!body) {
@@ -86,6 +101,146 @@ const sanitizeHistory = (history: unknown): IncomingHistoryMessage[] => {
 };
 
 const resolveLanguage = (language: unknown): PortfolioLanguage => (language === 'no' ? 'no' : 'en');
+
+const limitReachedAnswer = (language: PortfolioLanguage) =>
+  language === 'no'
+    ? 'Du har nådd den daglige spørregrensen. Prøv igjen i morgen, eller kontakt Pegah direkte på e-post.'
+    : 'You’ve reached the daily question limit. Please try again tomorrow or contact Pegah directly by email.';
+
+const getHeader = (headers: Record<string, string | undefined>, name: string) => {
+  const directValue = headers[name];
+
+  if (directValue) {
+    return directValue;
+  }
+
+  const lowerName = name.toLowerCase();
+  const matchingKey = Object.keys(headers).find((key) => key.toLowerCase() === lowerName);
+  return matchingKey ? headers[matchingKey] : undefined;
+};
+
+const connectBlobsContext = (event: unknown) => {
+  if (!event || typeof event !== 'object' || !('blobs' in event)) {
+    return;
+  }
+
+  const blobsEvent = event as { blobs?: unknown; headers?: unknown };
+
+  if (typeof blobsEvent.blobs !== 'string' || !blobsEvent.headers || typeof blobsEvent.headers !== 'object') {
+    return;
+  }
+
+  connectLambda(blobsEvent as Parameters<typeof connectLambda>[0]);
+};
+
+const getClientIp = (headers: Record<string, string | undefined>) => {
+  const candidates = [
+    'x-nf-client-connection-ip',
+    'x-forwarded-for',
+    'client-ip',
+    'x-real-ip',
+    'cf-connecting-ip',
+    'true-client-ip',
+  ];
+
+  for (const headerName of candidates) {
+    const value = getHeader(headers, headerName);
+
+    if (!value) {
+      continue;
+    }
+
+    const firstValue = value.split(',')[0]?.trim();
+
+    if (firstValue) {
+      return firstValue;
+    }
+  }
+
+  return 'unknown-client';
+};
+
+const getUtcDateKey = () => new Date().toISOString().slice(0, 10);
+
+const usageKeyForRequest = (headers: Record<string, string | undefined>, dateKey: string) => {
+  const clientIp = getClientIp(headers);
+  return createHash('sha256').update(`${dateKey}:${clientIp}`).digest('hex');
+};
+
+const readUsageRecord = async (key: string): Promise<{ record: UsageRecord | null; etag?: string }> => {
+  const store = getStore(USAGE_STORE_NAME);
+  const entry = await store.getWithMetadata(key, {
+    consistency: 'strong',
+    type: 'json',
+  });
+
+  if (!entry) {
+    return { record: null };
+  }
+
+  const data = entry.data as Partial<UsageRecord> | null;
+  const count = typeof data?.count === 'number' && Number.isFinite(data.count) ? data.count : 0;
+  const date = typeof data?.date === 'string' ? data.date : getUtcDateKey();
+  const updatedAt = typeof data?.updatedAt === 'string' ? data.updatedAt : new Date().toISOString();
+
+  return {
+    record: {
+      count,
+      date,
+      updatedAt,
+    },
+    etag: entry.etag,
+  };
+};
+
+const reserveDailyUsage = async (
+  headers: Record<string, string | undefined>,
+  dailyLimit: number,
+): Promise<{ allowed: boolean; count: number; trackingAvailable: boolean }> => {
+  const dateKey = getUtcDateKey();
+  const usageKey = usageKeyForRequest(headers, dateKey);
+  const store = getStore(USAGE_STORE_NAME);
+
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const { record, etag } = await readUsageRecord(usageKey);
+    const currentCount = record?.date === dateKey ? record.count : 0;
+
+    if (currentCount >= dailyLimit) {
+      return { allowed: false, count: currentCount, trackingAvailable: true };
+    }
+
+    const nextRecord: UsageRecord = {
+      count: currentCount + 1,
+      date: dateKey,
+      updatedAt: new Date().toISOString(),
+    };
+
+    const result = await store.setJSON(
+      usageKey,
+      nextRecord,
+      etag ? { onlyIfMatch: etag } : { onlyIfNew: true },
+    );
+
+    if (result.modified) {
+      return { allowed: true, count: nextRecord.count, trackingAvailable: true };
+    }
+  }
+
+  console.warn('portfolio-chat quota write contention; allowing request without a confirmed quota reservation');
+  return { allowed: true, count: 0, trackingAvailable: false };
+};
+
+const safeReserveDailyUsage = async (
+  headers: Record<string, string | undefined>,
+  dailyLimit: number,
+): Promise<{ allowed: boolean; count: number; trackingAvailable: boolean }> => {
+  try {
+    return await reserveDailyUsage(headers, dailyLimit);
+  } catch (error) {
+    console.warn('portfolio-chat quota tracking unavailable; allowing request', error);
+    return { allowed: true, count: 0, trackingAvailable: false };
+  }
+};
 
 const normalizeIntentMessage = (value: string) =>
   value
@@ -191,6 +346,18 @@ export const handler: Handler = async (event) => {
   if (!apiKey) {
     return json(500, {
       error: 'OPENAI_API_KEY is not configured. Add it as a server-side Netlify environment variable for Functions.',
+    });
+  }
+
+  const dailyLimit = resolveDailyLimit();
+  connectBlobsContext(event);
+  const quota = await safeReserveDailyUsage(event.headers, dailyLimit);
+
+  if (!quota.allowed) {
+    return json(429, {
+      answer: limitReachedAnswer(language),
+      sources: [],
+      limitReached: true,
     });
   }
 

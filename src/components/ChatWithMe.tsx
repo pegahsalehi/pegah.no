@@ -10,21 +10,29 @@ type ChatMessage = {
   role: ChatRole;
   content: string;
   sources?: string[];
+  limitReached?: boolean;
 };
 
 type ChatResponse = {
   answer?: string;
   sources?: string[];
   error?: string;
+  limitReached?: boolean;
 };
 
 const recentHistoryLimit = 6;
 
-const createMessage = (role: ChatRole, content: string, sources?: string[]): ChatMessage => ({
+const createMessage = (
+  role: ChatRole,
+  content: string,
+  sources?: string[],
+  limitReached = false,
+): ChatMessage => ({
   id: `${Date.now()}-${role}-${Math.random().toString(36).slice(2)}`,
   role,
   content,
   sources,
+  limitReached,
 });
 
 const contactKeywords = [
@@ -61,7 +69,8 @@ const ChatWithMe = () => {
     () => [...messages].reverse().find((item) => item.role === 'user')?.content ?? '',
     [messages],
   );
-  const showEmailFallback = Boolean(error) || asksAboutContact(latestUserMessage);
+  const hasLimitMessage = messages.some((item) => item.limitReached);
+  const showEmailFallback = Boolean(error) || hasLimitMessage || asksAboutContact(latestUserMessage);
   const showSuggestions = messages.length === 0 && !isLoading;
 
   const mailtoHref = useMemo(() => {
@@ -111,6 +120,14 @@ const ChatWithMe = () => {
       });
 
       const data = (await response.json()) as ChatResponse;
+
+      if (response.status === 429 || data.limitReached) {
+        setMessages((currentMessages) => [
+          ...currentMessages,
+          createMessage('assistant', data.answer || t.chat.errorMessage, [], true),
+        ]);
+        return;
+      }
 
       if (!response.ok) {
         throw new Error(data.error || t.chat.errorMessage);
@@ -196,7 +213,7 @@ const ChatWithMe = () => {
                   }`}
                 >
                   <p className="whitespace-pre-line">{item.content}</p>
-                  {item.role === 'assistant' && item.sources && item.sources.length > 0 && (
+                  {item.role === 'assistant' && !item.limitReached && item.sources && item.sources.length > 0 && (
                     <details className="group mt-2">
                       <summary className="cursor-pointer list-none text-[11px] font-medium text-blue-200/60 transition hover:text-blue-100 group-open:text-blue-100">
                         {t.chat.referencedSections}
