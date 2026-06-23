@@ -22,6 +22,26 @@ const MAX_MESSAGE_LENGTH = 1000;
 const MAX_HISTORY_MESSAGES = 6;
 const MAX_HISTORY_MESSAGE_LENGTH = 800;
 const MAX_CONTEXT_CHUNKS = 6;
+const GREETING_MESSAGES = new Set([
+  'hi',
+  'hello',
+  'hey',
+  'hei',
+  'hallo',
+  'good morning',
+  'good afternoon',
+  'good evening',
+]);
+const GENERAL_HELP_MESSAGES = new Set([
+  'help',
+  'what can you do',
+  'what can you help me with',
+  'what can i ask',
+  'how can you help',
+  'hva kan du hjelpe med',
+  'hva kan jeg spørre om',
+  'hjelp',
+]);
 
 const json = (statusCode: number, body: Record<string, unknown>, extraHeaders: Record<string, string> = {}): HandlerResponse => ({
   statusCode,
@@ -66,6 +86,29 @@ const sanitizeHistory = (history: unknown): IncomingHistoryMessage[] => {
 };
 
 const resolveLanguage = (language: unknown): PortfolioLanguage => (language === 'no' ? 'no' : 'en');
+
+const normalizeIntentMessage = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9æøå\s]/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const isGreetingOnly = (value: string) => GREETING_MESSAGES.has(normalizeIntentMessage(value));
+
+const isGeneralHelpOnly = (value: string) => GENERAL_HELP_MESSAGES.has(normalizeIntentMessage(value));
+
+const greetingAnswer = (language: PortfolioLanguage) =>
+  language === 'no'
+    ? 'Hei! Jeg kan hjelpe deg med å utforske Pegahs prosjekter, publikasjoner, ferdigheter, CV eller erfaring. Hva vil du vite mer om?'
+    : 'Hi! I can help you explore Pegah’s projects, publications, skills, CV, or experience. What would you like to know?';
+
+const generalHelpAnswer = (language: PortfolioLanguage) =>
+  language === 'no'
+    ? 'Du kan spørre meg om Pegahs prosjekter, publikasjoner, ferdigheter, CV, erfaring, utdanning eller kontaktinformasjon.'
+    : 'You can ask me about Pegah’s projects, publications, skills, CV, experience, education, or contact details.';
 
 const formatContext = (chunks: ReturnType<typeof retrievePortfolioChunks>) =>
   chunks
@@ -119,6 +162,7 @@ export const handler: Handler = async (event) => {
   }
 
   const message = payload.message.trim();
+  const language = resolveLanguage(payload.language);
 
   if (!message) {
     return json(400, { error: 'Message cannot be empty.' });
@@ -126,6 +170,20 @@ export const handler: Handler = async (event) => {
 
   if (message.length > MAX_MESSAGE_LENGTH) {
     return json(413, { error: `Message is too long. Please keep it under ${MAX_MESSAGE_LENGTH} characters.` });
+  }
+
+  if (isGreetingOnly(message)) {
+    return json(200, {
+      answer: greetingAnswer(language),
+      sources: [],
+    });
+  }
+
+  if (isGeneralHelpOnly(message)) {
+    return json(200, {
+      answer: generalHelpAnswer(language),
+      sources: [],
+    });
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
@@ -136,7 +194,6 @@ export const handler: Handler = async (event) => {
     });
   }
 
-  const language = resolveLanguage(payload.language);
   const history = sanitizeHistory(payload.history);
   const chunks = retrievePortfolioChunks(message, MAX_CONTEXT_CHUNKS);
   const context = formatContext(chunks);
