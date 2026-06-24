@@ -27,7 +27,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-4">
               <img 
-                src="/lovable-uploads/e9810342-de6a-4f13-9171-0077afe8c75a.png" 
+                src="/logo/logo.png" 
                 alt={t.nav.logoAlt}
                 className="h-10 w-10"
               />
