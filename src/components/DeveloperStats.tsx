@@ -24,7 +24,7 @@ const DeveloperStats = () => {
       valueClass: 'text-purple-300',
     },
     {
-      value: '760',
+      value: '780',
       label: t.contact.stats[3],
       className: 'from-indigo-500/10 via-blue-500/5 to-cyan-500/10 border-indigo-300/20',
       valueClass: 'text-indigo-200',

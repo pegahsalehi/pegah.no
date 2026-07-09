@@ -13,7 +13,7 @@ type ScholarStats = {
 // Snapshot from Google Scholar. Update these manually when metrics change.
 const scholarStats: ScholarStats = {
   publications: '20',
-  citations: '760',
+  citations: '780',
   hIndex: '12',
   i10Index: '12',
   scholarUrl: 'https://scholar.google.com/citations?user=0Y4lkuwAAAAJ',
