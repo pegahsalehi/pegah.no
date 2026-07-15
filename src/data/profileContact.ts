@@ -1,7 +1,5 @@
 export const profileContact = {
   email: 'pghsalehi@gmail.com',
-  phoneDisplay: '+47 920 97 694',
-  phoneHref: 'tel:+4792097694',
   location: 'Oslo, Norway',
   cvEnglish: '/cv/PegahResume_En.pdf',
   cvNorwegian: '/cv/PegahResume_No.pdf',

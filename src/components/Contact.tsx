@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, ExternalLink, Github, GraduationCap, Linkedin, Mail, MapPin, Phone, Send } from 'lucide-react';
+import { Download, ExternalLink, Github, GraduationCap, Linkedin, Mail, MapPin, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { profileContact } from '@/data/profileContact';
@@ -25,14 +25,6 @@ const ContactInfoBox = () => {
       value: profileContact.email,
       href: `mailto:${profileContact.email}`,
       icon: Mail,
-      className: 'sm:col-span-2',
-    },
-    {
-      id: 'phone',
-      label: t.contact.phone,
-      value: profileContact.phoneDisplay,
-      href: profileContact.phoneHref,
-      icon: Phone,
     },
     {
       id: 'location',
