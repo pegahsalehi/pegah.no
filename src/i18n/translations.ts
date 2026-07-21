@@ -215,6 +215,14 @@ export const translations = {
       ],
       microItems: [
         {
+          title: 'Anar',
+          description: "A <span class='gradient-highlight'>personal nutrition tracker</span> for saving <span class='gradient-highlight'>everyday meals</span>, logging them quickly, and following <span class='gradient-highlight'>calories and macros</span> over time.",
+          image: '/project/anar.png',
+          tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'PWA'],
+          demoUrl: 'https://anar.pegah.no',
+          githubUrl: 'https://github.com/pegahsalehi/anar',
+        },
+        {
           title: 'AI Portfolio with RAG Chat',
           description: "<span class='gradient-highlight'>Personal portfolio</span> with a <span class='gradient-highlight'>RAG chat assistant</span> for exploring my <span class='gradient-highlight'>projects</span>, <span class='gradient-highlight'>publications</span>, <span class='gradient-highlight'>experience</span>, and <span class='gradient-highlight'>skills</span> through <span class='gradient-highlight'>interactive AI conversation</span>.",
           image: '/project/portfolio.png',
@@ -594,6 +602,14 @@ export const translations = {
         },
       ],
       microItems: [
+        {
+          title: 'Anar',
+          description: "En <span class='gradient-highlight'>personlig ern&aelig;ringstracker</span> for &aring; lagre <span class='gradient-highlight'>hverdagsm&aring;ltider</span>, logge dem raskt og f&oslash;lge <span class='gradient-highlight'>kalorier og makroer</span> over tid.",
+          image: '/project/anar.png',
+          tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'PWA'],
+          demoUrl: 'https://anar.pegah.no',
+          githubUrl: 'https://github.com/pegahsalehi/anar',
+        },
         {
           title: 'AI-portefølje med RAG-chat',
           description: "<span class='gradient-highlight'>Personlig portefølje</span> med en <span class='gradient-highlight'>RAG-chatassistent</span> for å utforske <span class='gradient-highlight'>prosjekter</span>, <span class='gradient-highlight'>publikasjoner</span>, <span class='gradient-highlight'>erfaring</span> og <span class='gradient-highlight'>ferdigheter</span> gjennom <span class='gradient-highlight'>interaktiv AI-samtale</span>.",

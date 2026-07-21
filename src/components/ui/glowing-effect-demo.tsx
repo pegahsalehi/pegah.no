@@ -40,6 +40,7 @@ const techIconMap: Record<string, string> = {
   MongoDB: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
   PostgreSQL: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
   Postgres: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
+  PWA: 'https://cdn.simpleicons.org/pwa/5A0FC8',
   MySQL: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
   SQLite: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg',
   Redis: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg',
@@ -153,6 +154,7 @@ const GridItem = ({ project }: GridItemProps) => {
                 rel="noopener noreferrer"
                 className="w-9 h-9 flex items-center justify-center rounded-full bg-black/70 border border-white/20 hover:bg-gray-900 hover:border-blue-400 transition-colors"
                 title="View on GitHub"
+                aria-label={`View ${project.title} on GitHub`}
               >
                 <Github className="w-5 h-5 text-white" />
               </a>
@@ -164,6 +166,7 @@ const GridItem = ({ project }: GridItemProps) => {
                 rel="noopener noreferrer"
                 className="w-9 h-9 flex items-center justify-center rounded-full bg-black/70 border border-white/20 hover:bg-gray-900 hover:border-blue-400 transition-colors"
                 title="View Live"
+                aria-label={`View live ${project.title}`}
               >
                 <ExternalLink className="w-5 h-5 text-white" />
               </a>

@@ -148,6 +148,15 @@ export const portfolioKnowledge: PortfolioChunk[] = [
       'Project: Advanced RAG Knowledge Assistant. An in-progress private RAG-powered knowledge assistant for reliable document-based question answering with citations, semantic search, and LLM response generation. It is designed around document ingestion, chunking, embeddings, hybrid/vector search, semantic reranking, prompt engineering, and grounded LLM responses with source citations.',
   },
   {
+    id: 'project-anar',
+    section: 'project',
+    title: 'Anar',
+    source: 'Projects / Micro Projects',
+    tags: ['project', 'micro project', 'anar', 'nutrition tracker', 'meal logging', 'calories', 'macros', 'next.js', 'typescript', 'tailwind css', 'supabase', 'postgresql', 'pwa'],
+    content:
+      'Micro project: Anar. A personal nutrition tracker for saving everyday meals, logging them quickly, and following calories and macros over time. Tech tags: Next.js, TypeScript, Tailwind CSS, Supabase, PostgreSQL, PWA. Live app: https://anar.pegah.no. GitHub: https://github.com/pegahsalehi/anar.',
+  },
+  {
     id: 'project-portfolio',
     section: 'project',
     title: 'AI Portfolio with RAG Chat',
