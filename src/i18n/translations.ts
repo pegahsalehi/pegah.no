@@ -198,6 +198,21 @@ export const translations = {
         },
         {
           id: 6,
+          title: 'FoliaScan: Azure ML Crop Disease Classification',
+          description: "An <span class='gradient-highlight'>end-to-end computer vision and MLOps project</span> for <span class='gradient-highlight'>tomato leaf disease classification</span>, covering <span class='gradient-highlight'>PyTorch ResNet18 training</span>, <span class='gradient-highlight'>Azure Machine Learning</span>, and <span class='gradient-highlight'>Streamlit cloud inference</span>.",
+          caseStudy: {
+            problem: 'Image classification portfolio projects often stop at local model training, leaving gaps in reproducibility, cloud orchestration, deployment validation, and usable inference workflows.',
+            solution: 'Built a leakage-safe PlantVillage Tomato pipeline with PyTorch and ResNet18, Azure ML training and MLflow tracking, model registration, Managed Online Endpoint validation, a Streamlit inference client, and GitHub Actions CI.',
+            result: 'Reached 92.07% final test accuracy with a macro F1 score of 0.89665 and validated real end-to-end Streamlit-to-Azure inference before removing the cloud endpoint to avoid ongoing Azure costs.',
+          },
+          image: '/project/foliascan.png',
+          tags: ['Python', 'PyTorch', 'Azure ML', 'ResNet18', 'MLflow', 'Streamlit'],
+          textOnlyTags: ['Python'],
+          demoUrl: undefined,
+          githubUrl: 'https://github.com/pegahsalehi/foliascan-azure',
+        },
+        {
+          id: 7,
           title: 'Advanced RAG Knowledge Assistant',
           description: "An <span class='gradient-highlight'>advanced RAG-powered knowledge assistant</span> for reliable <span class='gradient-highlight'>document-based question answering</span> with <span class='gradient-highlight'>citations</span>, <span class='gradient-highlight'>semantic search</span>, and <span class='gradient-highlight'>LLM response generation</span>.",
           caseStudy: {
@@ -586,6 +601,21 @@ export const translations = {
         },
         {
           id: 6,
+          title: 'FoliaScan: Klassifisering av plantesykdommer med Azure ML',
+          description: "Et <span class='gradient-highlight'>ende-til-ende computer vision- og MLOps-prosjekt</span> for <span class='gradient-highlight'>klassifisering av sykdommer på tomatblader</span>, med <span class='gradient-highlight'>PyTorch ResNet18-trening</span>, <span class='gradient-highlight'>Azure Machine Learning</span> og <span class='gradient-highlight'>Streamlit-basert skyinferens</span>.",
+          caseStudy: {
+            problem: 'Mange bildeklassifiseringsprosjekter stopper ved lokal modelltrening og mangler reproduserbarhet, skyorkestrering, validering av utrulling og en brukbar inferensflyt.',
+            solution: 'Bygget en pipeline for PlantVillage Tomato som hindrer datalekkasje, med PyTorch og ResNet18, Azure ML-trening og MLflow-sporing, modellregistrering, validering av Managed Online Endpoint, en Streamlit-inferensklient og GitHub Actions CI.',
+            result: 'Oppnådde 92,07 % nøyaktighet på det endelige testsettet med en macro F1-score på 0,89665 og validerte reell ende-til-ende inferens fra Streamlit til Azure før sky-endepunktet ble fjernet for å unngå løpende Azure-kostnader.',
+          },
+          image: '/project/foliascan.png',
+          tags: ['Python', 'PyTorch', 'Azure ML', 'ResNet18', 'MLflow', 'Streamlit'],
+          textOnlyTags: ['Python'],
+          demoUrl: undefined,
+          githubUrl: 'https://github.com/pegahsalehi/foliascan-azure',
+        },
+        {
+          id: 7,
           title: 'Avansert RAG Knowledge Assistant',
           description: "En <span class='gradient-highlight'>advanced RAG-powered knowledge assistant</span> for pålitelig <span class='gradient-highlight'>document-based question answering</span> med <span class='gradient-highlight'>citations</span>, <span class='gradient-highlight'>semantic search</span> og <span class='gradient-highlight'>LLM response generation</span>.",
           caseStudy: {
