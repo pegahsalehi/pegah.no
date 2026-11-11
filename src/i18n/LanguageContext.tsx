@@ -11,22 +11,29 @@ const STORAGE_KEY = 'portfolio-language';
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
-const getInitialLanguage = (): Language => {
-  if (typeof window === 'undefined') {
-    return 'en';
-  }
-
-  const saved = window.localStorage.getItem(STORAGE_KEY);
-  return saved === 'no' ? 'no' : 'en';
-};
-
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [language, setLanguage] = useState<Language>(getInitialLanguage);
+  // The first client render must match the English static HTML, even for returning visitors.
+  const [language, setLanguage] = useState<Language>('en');
+  const [preferenceLoaded, setPreferenceLoaded] = useState(false);
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, language);
+    try {
+      setLanguage(window.localStorage.getItem(STORAGE_KEY) === 'no' ? 'no' : 'en');
+    } catch {
+      // Language switching also works when browser storage is unavailable.
+    }
+    setPreferenceLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!preferenceLoaded) return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, language);
+    } catch {
+      // A blocked storage API should not prevent rendering the portfolio.
+    }
     document.documentElement.lang = language === 'no' ? 'nb' : 'en';
-  }, [language]);
+  }, [language, preferenceLoaded]);
 
   const value = useMemo(
     () => ({

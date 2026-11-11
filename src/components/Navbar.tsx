@@ -90,6 +90,9 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <div className="md:hidden">
             <Button 
+              aria-label={t.nav.menu}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
               variant="ghost" 
               size="sm" 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -104,6 +107,7 @@ const Navbar = () => {
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <motion.div 
+          id="mobile-navigation"
           className="md:hidden p-4 bg-gray-900/95 border-t border-gray-800 backdrop-blur-md"
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}

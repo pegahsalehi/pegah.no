@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { researchStats } from '@/data/researchStats';
 
 const DeveloperStats = () => {
   const { t } = useLanguage();
@@ -18,13 +19,13 @@ const DeveloperStats = () => {
       valueClass: 'text-cyan-300',
     },
     {
-      value: '20',
+      value: researchStats.publications,
       label: t.contact.stats[2],
       className: 'from-purple-500/10 via-purple-500/5 to-pink-500/10 border-purple-400/20',
       valueClass: 'text-purple-300',
     },
     {
-      value: '780',
+      value: researchStats.citations,
       label: t.contact.stats[3],
       className: 'from-indigo-500/10 via-blue-500/5 to-cyan-500/10 border-indigo-300/20',
       valueClass: 'text-indigo-200',

@@ -3,11 +3,13 @@ import { ArrowUp, Code2, Heart } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState<number>(import.meta.env.BUILD_YEAR);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const { t } = useLanguage();
 
   useEffect(() => {
+    // Hydrate the build's year first, then refresh it for long-lived deployments.
+    setCurrentYear(new Date().getFullYear());
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 300);
     };

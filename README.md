@@ -102,6 +102,32 @@ The project can be deployed to any static hosting service:
 
 2. Deploy the `dist` directory to your preferred hosting service.
 
+### Static rendering and crawler verification
+
+`npm run build` builds the browser assets, prerenders the existing React portfolio into
+`dist/index.html`, generates `dist/404.html`, and verifies the output. Run this full
+command for deployments; running `vite build` directly only produces the HTML shell.
+No production rendering server or additional dependencies are required.
+
+Netlify uses the checked-in `netlify.toml` to run `npm run build`, publish `dist`,
+and retain the existing `netlify/functions` backend. The sitemap contains only `/`:
+section fragments and the English/Norwegian preference are not separate page URLs.
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+npm run verify:build
+npm run preview -- --host 127.0.0.1 --port 4173
+# In another terminal: verify real HTTP responses without executing JavaScript.
+npm run verify:build -- --url http://127.0.0.1:4173/
+# After an approved deployment, the same check can target production.
+npm run verify:build -- --url https://pegah.no/
+```
+
+See [the crawler accessibility audit](docs/crawler-accessibility.md) for the verified
+production findings, file list, HTML examples, and existing check failures.
+
 ## 🤝 Contributing
 
 1. Fork the repository

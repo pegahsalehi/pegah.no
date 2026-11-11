@@ -1,0 +1,23 @@
+# Pegah Salehi
+
+> Applied AI Engineer. I build applied AI systems that move beyond prototypes, including RAG pipelines, generative AI workflows, and computer vision models.
+
+## Portfolio
+
+- [Home and profile](https://pegah.no/): Professional introduction and links.
+- [Technical skills](https://pegah.no/#technologies): Languages, AI/ML and LLM tools, cloud, vision, avatars, and web tools.
+- [Education and experience](https://pegah.no/#about): PhD education and professional experience.
+- [Projects](https://pegah.no/#projects): Applied AI projects and smaller projects.
+- [Publications](https://pegah.no/#publications): Research publications and links to papers.
+- [Contact](https://pegah.no/#contact): Contact information and professional profiles.
+
+## Documents and profiles
+
+- [English CV](https://pegah.no/cv/PegahResume_En.pdf)
+- [Norwegian CV](https://pegah.no/cv/PegahResume_No.pdf)
+- [PhD thesis](https://pegah.no/Pegah_PhD_Thesis.pdf)
+- [GitHub](https://github.com/pegahsalehi)
+- [LinkedIn](https://www.linkedin.com/in/pghsalehi)
+- [Google Scholar](https://scholar.google.com/citations?user=0Y4lkuwAAAAJ)
+
+The portfolio HTML is available without JavaScript. JavaScript adds animations, English/Norwegian switching, contact form submission, and chat. This file is supplementary; the portfolio is the authoritative public content.

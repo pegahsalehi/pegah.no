@@ -1,3 +1,5 @@
+import { researchStats } from '../../../src/data/researchStats.js';
+
 export type PortfolioLanguage = 'en' | 'no';
 
 export type PortfolioSection =
@@ -181,7 +183,7 @@ export const portfolioKnowledge: PortfolioChunk[] = [
     source: 'Publications',
     tags: ['publications', 'citations', 'h-index', 'google scholar', 'research'],
     content:
-      'The portfolio publication snapshot lists 20 publications, 780 citations, h-index 12, and i10-index 12. Google Scholar profile: https://scholar.google.com/citations?user=0Y4lkuwAAAAJ.',
+      `The portfolio publication snapshot lists ${researchStats.publications} publications, ${researchStats.citations} citations, h-index ${researchStats.hIndex}, and i10-index ${researchStats.i10Index}. Google Scholar profile: https://scholar.google.com/citations?user=0Y4lkuwAAAAJ.`,
   },
   {
     id: 'publication-vr-training',

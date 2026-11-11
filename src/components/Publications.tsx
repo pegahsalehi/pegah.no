@@ -1,23 +1,8 @@
 import React from 'react';
 import { BookOpen, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
-
-type ScholarStats = {
-  publications: string;
-  citations: string;
-  hIndex: string;
-  i10Index: string;
-  scholarUrl: string;
-};
-
-// Snapshot from Google Scholar. Update these manually when metrics change.
-const scholarStats: ScholarStats = {
-  publications: '20',
-  citations: '780',
-  hIndex: '12',
-  i10Index: '12',
-  scholarUrl: 'https://scholar.google.com/citations?user=0Y4lkuwAAAAJ',
-};
+import { researchStats as scholarStats } from '@/data/researchStats';
+import { profileContact } from '@/data/profileContact';
 
 const scholarCitationUrl = (citationId: string) =>
   `https://scholar.google.com/citations?view_op=view_citation&hl=en&user=0Y4lkuwAAAAJ&citation_for_view=0Y4lkuwAAAAJ:${citationId}`;
@@ -81,7 +66,7 @@ const Publications = () => {
 
       <div className="mb-8 flex justify-center">
         <a
-          href={scholarStats.scholarUrl}
+          href={profileContact.scholar}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-full border border-blue-400/25 bg-black/35 px-5 py-3 text-sm font-semibold text-blue-200 shadow-[0_0_24px_rgba(59,130,246,0.14)] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300/50 hover:text-white"

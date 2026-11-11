@@ -13,7 +13,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
   once = false 
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentText, setCurrentText] = useState('');
+  const [currentText, setCurrentText] = useState(() => Array.isArray(text) ? text[0] : text);
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(150);
 

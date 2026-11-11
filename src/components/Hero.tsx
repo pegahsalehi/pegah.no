@@ -80,13 +80,13 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.5 }}
           >
-            <a href={profileContact.github} target="_blank" rel="noopener noreferrer" className="group">
+            <a href={profileContact.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" className="group">
               <div className="relative p-3 rounded-xl bg-black/40 backdrop-blur-sm border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)] group-hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-300">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/10 to-purple-600/0 rounded-xl blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-150 group-hover:scale-100"></div>
                 <Github className="w-6 h-6 relative z-10 text-white group-hover:text-blue-400 transition-colors duration-300" />
               </div>
             </a>
-            <a href={profileContact.linkedin} target="_blank" rel="noopener noreferrer" className="group">
+            <a href={profileContact.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" className="group">
               <div className="relative p-3 rounded-xl bg-black/40 backdrop-blur-sm border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)] group-hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-300">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/10 to-purple-600/0 rounded-xl blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-150 group-hover:scale-100"></div>
                 <Linkedin className="w-6 h-6 relative z-10 text-white group-hover:text-blue-400 transition-colors duration-300" />
@@ -144,7 +144,7 @@ const Hero = () => {
             transition={{ delay: 1.2, duration: 0.6 }}
           >
             <div className="animate-bounce p-2 bg-blue-900/30 rounded-full border border-blue-500/20">
-              <a href="#technologies" className="text-blue-400">
+              <a href="#technologies" aria-label={t.nav.skills} className="text-blue-400">
                 <svg 
                   className="w-6 h-6" 
                   fill="none" 

@@ -5,6 +5,9 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  define: {
+    'import.meta.env.BUILD_YEAR': JSON.stringify(new Date().getFullYear()),
+  },
   server: {
     host: "::",
     port: 8080,
